@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Imagem & Ação</title>
+    <meta name="description" content="Jogo de Imagem & Ação offline">
+    <meta name="theme-color" content="#0984e3">
+    
+    <!-- PWA manifest -->
+    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiSW1hZ2VtICYgQcOnw6NvIiwic2hvcnRfbmFtZSI6IkltYWdlbSAmIEHDp8OjbyIsInN0YXJ0X3VybCI6Ii8iLCJkaXNwbGF5Ijoic3RhbmRhbG9uZSIsImJhY2tncm91bmRfY29sb3IiOiIjZmZmZmZmIiwidGhlbWVfY29sb3IiOiIjMDk4NGUzIiwiaWNvbnMiOlt7InNyYyI6ImRhdGE6aW1hZ2Uvc3ZnK3htbDtiYXNlNjQsUEhOMlp5QjNhV1IwYUQwaU16STBJQ0JvWldsbmFIUTlJak15TUNJZ2VtMXNibk05SW1oMGRIQTZMeTkzZDNjdWR6TXViM0puTHpJd01EQXZjM1puSWo0OGNtVmpkQ0IzYVdSMGFEMGlNekl3SWlCb1pXbG5hSFE5SWpNeU1DSWdabWxzYkQwaVV6TTJVell6SWk4K1BIUmxlSFFnZUQwaU1UWXdJaUI1UFNJeE9EQWlJSFJsZUhRdFlXNWphRzl5UFNKdGFXUmtiR1VpSUdacGJHdzlJaU01T0RRbFJURWlJR1p2Ym5RdGMybDZaVDBpTXpSd2VDSTZTVzFoWjJWdElDWWdhVzUwS3pOaFBDOTBaWGgwUGp3dmMzWm5QZz09IiwidHlwZSI6ImltYWdlL3N2Zyt4bWwiLCJzaXplcyI6IjMyMHgzMjAifV19">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 24px;
+            max-width: 400px;
+            width: 100%;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #2d3436;
+            text-align: center;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #0984e3, #6c5ce7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            color: #636e72;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .options-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option-button {
+            padding: 16px;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            color: #2d3436;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        .option-button:active {
+            transform: translateY(0);
+        }
+
+        .difficulty-1 { background: linear-gradient(135deg, #00b894, #00cec9); color: white; }
+        .difficulty-2 { background: linear-gradient(135deg, #55efc4, #00b894); color: white; }
+        .difficulty-3 { background: linear-gradient(135deg, #fdcb6e, #f39c12); color: white; }
+        .difficulty-4 { background: linear-gradient(135deg, #ffeaa7, #fdcb6e); color: #2d3436; }
+        .difficulty-5 { background: linear-gradient(135deg, #fd79a8, #fdcb6e); color: white; }
+        .difficulty-6 { background: linear-gradient(135deg, #e84393, #fd79a8); color: white; }
+        .difficulty-7 { background: linear-gradient(135deg, #ff6b6b, #e84393); color: white; }
+        .difficulty-8 { background: linear-gradient(135deg, #a29bfe, #ff6b6b); color: white; }
+        .difficulty-9 { background: linear-gradient(135deg, #6c5ce7, #a29bfe); color: white; }
+        .difficulty-10 { background: linear-gradient(135deg, #2d3436, #6c5ce7); color: white; }
+
+        .difficulty-text {
+            font-size: 12px;
+            opacity: 0.8;
+            font-weight: 400;
+        }
+
+        .result-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .result-label {
+            font-size: 18px;
+            color: #636e72;
+            margin-bottom: 10px;
+        }
+
+        .result-word {
+            font-size: 32px;
+            font-weight: bold;
+            color: #2d3436;
+            margin-bottom: 30px;
+            background: linear-gradient(45deg, #0984e3, #6c5ce7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .new-button {
+            background: linear-gradient(135deg, #0984e3, #6c5ce7);
+            color: white;
+            border: none;
+            padding: 14px 24px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(9, 132, 227, 0.3);
+        }
+
+        .new-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(9, 132, 227, 0.4);
+        }
+
+        .install-banner {
+            background: linear-gradient(135deg, #00b894, #00cec9);
+            color: white;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 16px;
+            text-align: center;
+            font-size: 14px;
+            cursor: pointer;
+            display: none;
+        }
+
+        .install-banner.show {
+            display: block;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                margin: 8px;
+                padding: 20px;
+                border-radius: 16px;
+            }
+            
+            .title {
+                font-size: 24px;
+            }
+            
+            .result-word {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="installBanner" class="install-banner">
+            📱 Toque aqui para instalar o app no seu iPhone!
+        </div>
+        
+        <h1 class="title">Imagem & Ação</h1>
+        
+        <div id="optionsView">
+            <p class="subtitle">Escolha uma palavra:</p>
+            <div id="optionsContainer" class="options-container">
+                <!-- Options will be populated here -->
+            </div>
+        </div>
+        
+        <div id="resultView" class="result-container" style="display: none;">
+            <p class="result-label">Você escolheu:</p>
+            <div id="selectedWord" class="result-word"></div>
+            <button class="new-button" onclick="drawWords()">Sortear Novamente</button>
+        </div>
+    </div>
+
+    <script>
+        // Embedded word list - 200 words
+        const wordList = 
+        [{"Palavra":"Gato","Pontos":1},{"Palavra":"Helicóptero","Pontos":6},{"Palavra":"Arraia","Pontos":4},{"Palavra":"Violino","Pontos":3},{"Palavra":"Abacaxi","Pontos":2},{"Palavra":"Bússola","Pontos":5},{"Palavra":"Carrossel","Pontos":4},{"Palavra":"Micro-ondas","Pontos":2},{"Palavra":"Chaleira","Pontos":3},{"Palavra":"Golfinho","Pontos":3},{"Palavra":"Tamanduá","Pontos":5},{"Palavra":"Robô","Pontos":3},{"Palavra":"Catavento","Pontos":4},{"Palavra":"Estilingue","Pontos":5},{"Palavra":"Tesoura","Pontos":1},{"Palavra":"Escorregador","Pontos":2},{"Palavra":"Cacto","Pontos":3},{"Palavra":"Arlequim","Pontos":6},{"Palavra":"Ovo frito","Pontos":2},{"Palavra":"Cavalo-marinho","Pontos":5},{"Palavra":"Pipoca","Pontos":1},{"Palavra":"Antena parabólica","Pontos":6},{"Palavra":"Abajur","Pontos":4},{"Palavra":"Cadeira de rodas","Pontos":3},{"Palavra":"Bumerangue","Pontos":5},{"Palavra":"Guaxinim","Pontos":6},{"Palavra":"Máquina de lavar","Pontos":2},{"Palavra":"Chapéu de palha","Pontos":3},{"Palavra":"Barco à vela","Pontos":4},{"Palavra":"Camaleão","Pontos":4},{"Palavra":"Foguete","Pontos":3},{"Palavra":"Bicho-preguiça","Pontos":5},{"Palavra":"Armário","Pontos":2},{"Palavra":"Serra elétrica","Pontos":4},{"Palavra":"Morsa","Pontos":6},{"Palavra":"Bicho-de-pé","Pontos":7},{"Palavra":"Skate","Pontos":2},{"Palavra":"Teclado (instrumento)","Pontos":4},{"Palavra":"Girassol","Pontos":3},{"Palavra":"Dinossauro","Pontos":2},{"Palavra":"Toalha de mesa","Pontos":2},{"Palavra":"Aspirador de pó","Pontos":3},{"Palavra":"Caranguejo","Pontos":3},{"Palavra":"Espantalho","Pontos":5},{"Palavra":"Carrinho de mão","Pontos":4},{"Palavra":"Dragão","Pontos":2},{"Palavra":"Prisma","Pontos":8},{"Palavra":"Boneca de pano","Pontos":3},{"Palavra":"Esponja","Pontos":2},{"Palavra":"Termômetro","Pontos":3},{"Palavra":"Lupa","Pontos":4},{"Palavra":"Aranha","Pontos":2},{"Palavra":"Pirâmide","Pontos":3},{"Palavra":"Mangueira de jardim","Pontos":3},{"Palavra":"Relógio de pulso","Pontos":2},{"Palavra":"Óculos escuros","Pontos":2},{"Palavra":"Mochila","Pontos":2},{"Palavra":"Rede de descanso","Pontos":3},{"Palavra":"Bacia","Pontos":7},{"Palavra":"Teia de aranha","Pontos":4},{"Palavra":"Baralho","Pontos":2},{"Palavra":"Toca-discos","Pontos":5},{"Palavra":"Pneu","Pontos":2},{"Palavra":"Caminhão","Pontos":2},{"Palavra":"Totem","Pontos":6},{"Palavra":"Vaso de cerâmica","Pontos":4},{"Palavra":"Pêndulo","Pontos":6},{"Palavra":"Fantasia (roupa)","Pontos":3},{"Palavra":"Balança","Pontos":3},{"Palavra":"Cilindro","Pontos":5},{"Palavra":"Fermento biológico","Pontos":7},{"Palavra":"Martelo","Pontos":2},{"Palavra":"Régua","Pontos":2},{"Palavra":"Cevada","Pontos":6},{"Palavra":"Ampulheta","Pontos":5},{"Palavra":"Gancho","Pontos":2},{"Palavra":"Disquete","Pontos":5},{"Palavra":"Fita cassete","Pontos":4},{"Palavra":"HD externo","Pontos":4},{"Palavra":"Caixa de som","Pontos":3},{"Palavra":"Chaveiro","Pontos":2},{"Palavra":"Bateria (veículo)","Pontos":3},{"Palavra":"Chassis","Pontos":6},{"Palavra":"Torneira","Pontos":2},{"Palavra":"Lixadeira","Pontos":5},{"Palavra":"Chapéu de chuva","Pontos":4},{"Palavra":"Balaio","Pontos":5},{"Palavra":"Cabide","Pontos":2},{"Palavra":"Beiral","Pontos":9},{"Palavra":"Tronco","Pontos":2},{"Palavra":"Guarda-chuva","Pontos":2},{"Palavra":"Luneta","Pontos":6},{"Palavra":"Binóculo","Pontos":4},{"Palavra":"Bobina","Pontos":5},{"Palavra":"Painel solar","Pontos":4},{"Palavra":"Óleo de cozinha","Pontos":2},{"Palavra":"Almofada","Pontos":2},{"Palavra":"Guarda-roupa","Pontos":2},{"Palavra":"Maçarico","Pontos":6},{"Palavra":"Âncora","Pontos":4},{"Palavra":"Escalar montanha","Pontos":3},{"Palavra":"Tocar violão","Pontos":3},{"Palavra":"Pintar parede","Pontos":3},{"Palavra":"Fazer massagem","Pontos":3},{"Palavra":"Andar de bicicleta","Pontos":2},{"Palavra":"Assar bolo","Pontos":2},{"Palavra":"Fazer compras","Pontos":2},{"Palavra":"Pular corda","Pontos":3},{"Palavra":"Nadar peito","Pontos":4},{"Palavra":"Passar roupa","Pontos":3},{"Palavra":"Cortar cabelo","Pontos":2},{"Palavra":"Jogar capoeira","Pontos":4},{"Palavra":"Andar de skate","Pontos":3},{"Palavra":"Meditar","Pontos":4},{"Palavra":"Costurar","Pontos":4},{"Palavra":"Jogar sinuca","Pontos":3},{"Palavra":"Tirar selfie","Pontos":1},{"Palavra":"Fazer yoga","Pontos":3},{"Palavra":"Plantar árvore","Pontos":2},{"Palavra":"Subir escada","Pontos":2},{"Palavra":"Cortar lenha","Pontos":4},{"Palavra":"Cuidar de bebê","Pontos":2},{"Palavra":"Lavar o carro","Pontos":2},{"Palavra":"Trocar lâmpada","Pontos":3},{"Palavra":"Dançar forró","Pontos":3},{"Palavra":"Escrever cartas","Pontos":3},{"Palavra":"Fazer origami","Pontos":5},{"Palavra":"Pilotar drone","Pontos":5},{"Palavra":"Organizar gavetas","Pontos":3},{"Palavra":"Fazer bolhas de sabão","Pontos":4},{"Palavra":"Caminhar na praia","Pontos":2},{"Palavra":"Jogar vôlei","Pontos":3},{"Palavra":"Fazer tricô","Pontos":5},{"Palavra":"Fotografar","Pontos":2},{"Palavra":"Cozinhar risoto","Pontos":4},{"Palavra":"Fazer reparos","Pontos":3},{"Palavra":"Fazer jardinagem","Pontos":3},{"Palavra":"Apontar lápis","Pontos":2},{"Palavra":"Tocar piano","Pontos":4},{"Palavra":"Arrumar móveis","Pontos":3},{"Palavra":"Pintar aquarela","Pontos":5},{"Palavra":"Jogar videogame","Pontos":2},{"Palavra":"Aprender idioma","Pontos":4},{"Palavra":"Fazer podcast","Pontos":4},{"Palavra":"Costurar botão","Pontos":3},{"Palavra":"Esconder e procurar","Pontos":1},{"Palavra":"Fazer escultura","Pontos":5},{"Palavra":"Lavar louça","Pontos":1},{"Palavra":"Fazer playlist","Pontos":3},{"Palavra":"Trocar pneu","Pontos":4},{"Palavra":"Meme","Pontos":2},{"Palavra":"Reality show","Pontos":3},{"Palavra":"Trailer","Pontos":3},{"Palavra":"Super-herói","Pontos":2},{"Palavra":"Animação","Pontos":3},{"Palavra":"Série de fantasia","Pontos":4},{"Palavra":"Documentário","Pontos":4},{"Palavra":"Clipe musical","Pontos":3},{"Palavra":"Viral","Pontos":3},{"Palavra":"Quadrinhos","Pontos":3},{"Palavra":"Podcast","Pontos":3},{"Palavra":"Websérie","Pontos":4},{"Palavra":"Fanfic","Pontos":4},{"Palavra":"Cosplay","Pontos":4},{"Palavra":"Festival de rua","Pontos":4},{"Palavra":"Grafite","Pontos":3},{"Palavra":"Batalha de rap","Pontos":4},{"Palavra":"Concurso de beleza","Pontos":3},{"Palavra":"Desfile de moda","Pontos":3},{"Palavra":"Karaokê","Pontos":3},{"Palavra":"Rede social","Pontos":2},{"Palavra":"Streaming","Pontos":3},{"Palavra":"Avatar","Pontos":4},{"Palavra":"Figurinha digital","Pontos":5},{"Palavra":"Spin-off","Pontos":6},{"Palavra":"Liberdade","Pontos":4},{"Palavra":"Gravidade","Pontos":6},{"Palavra":"Esperança","Pontos":3},{"Palavra":"Justiça","Pontos":4},{"Palavra":"Relatividade","Pontos":8},{"Palavra":"Medo","Pontos":2},{"Palavra":"Amizade","Pontos":2},{"Palavra":"Preguiça","Pontos":2},{"Palavra":"Culpa","Pontos":3},{"Palavra":"Saudade","Pontos":3},{"Palavra":"Equilíbrio","Pontos":5},{"Palavra":"Fama","Pontos":3},{"Palavra":"Criatividade","Pontos":4},{"Palavra":"Silêncio","Pontos":3},{"Palavra":"Mudança","Pontos":3},{"Palavra":"Felicidade","Pontos":2},{"Palavra":"Solidão","Pontos":3},{"Palavra":"Tempo","Pontos":4},{"Palavra":"Energia","Pontos":3},{"Palavra":"Amor","Pontos":2},{"Palavra":"Verdade","Pontos":4},{"Palavra":"Memória","Pontos":3},{"Palavra":"Caos","Pontos":5},{"Palavra":"Harmonia","Pontos":5},{"Palavra":"Paciência","Pontos":3}]
+;
+
+        let currentOptions = [];
+        let deferredPrompt;
+
+        // Function to shuffle array
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        // Function to draw 5 random words
+        function drawWords() {
+            currentOptions = shuffleArray(wordList).slice(0, 5);
+            showOptions();
+        }
+
+        // Function to show word options
+        function showOptions() {
+            document.getElementById('optionsView').style.display = 'block';
+            document.getElementById('resultView').style.display = 'none';
+            
+            const container = document.getElementById('optionsContainer');
+            container.innerHTML = '';
+            
+            currentOptions.forEach((word, index) => {
+                const button = document.createElement('button');
+                button.className = `option-button difficulty-${word.Pontos}`;
+                button.innerHTML = `
+                    ${word.Palavra}
+                    <div class="difficulty-text">Pontos ${word.Pontos}</div>
+                `;
+                button.onclick = () => selectWord(word.Palavra);
+                container.appendChild(button);
+            });
+        }
+
+        // Function to select a word
+        function selectWord(word) {
+            document.getElementById('selectedWord').textContent = word;
+            document.getElementById('optionsView').style.display = 'none';
+            document.getElementById('resultView').style.display = 'flex';
+        }
+
+        // PWA Install functionality
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById('installBanner').classList.add('show');
+        });
+
+        document.getElementById('installBanner').addEventListener('click', () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('User accepted the install prompt');
+                    }
+                    deferredPrompt = null;
+                    document.getElementById('installBanner').classList.remove('show');
+                });
+            }
+        });
+
+        // Service worker registration for offline functionality
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                const swCode = `
+                    const CACHE_NAME = 'imagem-acao-v1';
+                    const urlsToCache = [
+                        '/',
+                        '/index.html'
+                    ];
+
+                    self.addEventListener('install', (event) => {
+                        event.waitUntil(
+                            caches.open(CACHE_NAME)
+                                .then((cache) => cache.addAll(urlsToCache))
+                        );
+                    });
+
+                    self.addEventListener('fetch', (event) => {
+                        event.respondWith(
+                            caches.match(event.request)
+                                .then((response) => {
+                                    return response || fetch(event.request);
+                                })
+                        );
+                    });
+                `;
+                
+                const blob = new Blob([swCode], { type: 'application/javascript' });
+                const swUrl = URL.createObjectURL(blob);
+                
+                navigator.serviceWorker.register(swUrl)
+                    .then(() => console.log('Service Worker registered'))
+                    .catch(() => console.log('Service Worker registration failed'));
+            });
+        }
+
+        // Initialize app
+        drawWords();
+    </script>
+</body>
+</html>
