@@ -5,13 +5,13 @@
 [![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live-success)](https://vitruvia.github.io/jogos/)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-**[🎯 Jogar Agora](https://seu-usuario.github.io/jogos/)** | [📖 Documentação](QUICKSTART.md) | [➕ Adicionar Jogo](scripts/new-game.sh)
+**[🎯 Jogar Agora](https://vitruvia.github.io/jogos/)** | [📖 Documentação](QUICKSTART.md) | [➕ Adicionar Jogo](scripts/new-game.sh)
 
 ---
 
 ## 🎲 Jogos Disponíveis
 
-### [Story Weave](https://seu-usuario.github.io/jogos/story-weave/) 📖
+### [Story Weave](https://vitruvia.github.io/jogos/story-weave/) 📖
 
 Jogo colaborativo de narrativa presencial. Gere personagens ricos e palavras balanceadas para criar histórias em grupo.
 
@@ -46,7 +46,7 @@ Acesse: **[seu-usuario.github.io/jogos](https://seu-usuario.github.io/jogos/)**
 
 ```bash
 # Clone o repositório
-git clone https://github.com/seu-usuario/jogos.git
+git clone https://github.com/vitruvia/jogos.git
 cd jogos
 
 # Inicie servidor local
@@ -138,8 +138,7 @@ Este projeto está sob a licença MIT. Veja [LICENSE](LICENSE) para mais detalhe
 
 **Vitruvia**
 
-- GitHub: [@seu-usuario](https://github.com/seu-usuario)
-- Website: [seu-site.com](https://seu-site.com)
+- GitHub: [@vitruvia](https://github.com/vitruvia)
 
 ---
 
@@ -161,7 +160,7 @@ Este projeto está sob a licença MIT. Veja [LICENSE](LICENSE) para mais detalhe
 
 <div align="center">
 
-**[🎮 Jogar Agora](https://seu-usuario.github.io/jogos/)** | **[⭐ Star no GitHub](../../stargazers)**
+**[🎮 Jogar Agora](https://vitruvia.github.io/jogos/)** | **[⭐ Star no GitHub](../../stargazers)**
 
 Feito com ❤️ por Vitruvia
 
