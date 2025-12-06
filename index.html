@@ -4,186 +4,252 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Jogos - Vitruvia</title>
-  <script src="https://cdn.tailwindcss.com"></script>
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
     body {
       font-family: Georgia, serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
     }
     
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-20px); }
-      to { opacity: 1; transform: translateY(0); }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
     }
     
-    @keyframes slideUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
+    header {
+      text-align: center;
+      color: white;
+      margin-bottom: 50px;
+      padding: 40px 20px;
     }
     
-    .animate-fadeIn {
-      animation: fadeIn 0.8s ease-out;
+    header h1 {
+      font-size: 64px;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+    }
+    
+    header p {
+      font-size: 24px;
+      opacity: 0.9;
+      font-style: italic;
+    }
+    
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 30px;
+      margin-bottom: 40px;
     }
     
     .game-card {
-      animation: slideUp 0.6s ease-out forwards;
-      opacity: 0;
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
     }
-    
-    .game-card:nth-child(1) { animation-delay: 0.1s; }
-    .game-card:nth-child(2) { animation-delay: 0.2s; }
-    .game-card:nth-child(3) { animation-delay: 0.3s; }
-    .game-card:nth-child(4) { animation-delay: 0.4s; }
-    .game-card:nth-child(5) { animation-delay: 0.5s; }
-    .game-card:nth-child(6) { animation-delay: 0.6s; }
     
     .game-card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 20px 40px rgba(217, 119, 6, 0.2);
+      transform: translateY(-10px);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.4);
     }
     
-    .game-card {
-      transition: all 0.3s ease;
+    .game-header {
+      padding: 40px 30px;
+      text-align: center;
+      color: white;
     }
     
-    .badge {
-      display: inline-block;
-      padding: 0.25rem 0.75rem;
-      border-radius: 9999px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+    .game-header.story-weave {
+      background: linear-gradient(135deg, #d97706 0%, #ea580c 100%);
     }
     
-    .badge-html { background: #f59e0b; color: white; }
-    .badge-react { background: #3b82f6; color: white; }
-    .badge-unity { background: #8b5cf6; color: white; }
-    .badge-phaser { background: #10b981; color: white; }
+    .game-header.rabiscofone {
+      background: linear-gradient(135deg, #7c3aed 0%, #2563eb 100%);
+    }
+    
+    .game-header.imagem-acao {
+      background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+    }
+    
+    .game-icon {
+      font-size: 64px;
+      margin-bottom: 15px;
+    }
+    
+    .game-header h2 {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+    
+    .game-header p {
+      font-size: 16px;
+      opacity: 0.9;
+    }
+    
+    .game-body {
+      padding: 30px;
+    }
+    
+    .game-body h3 {
+      font-size: 20px;
+      color: #333;
+      margin-bottom: 15px;
+    }
+    
+    .game-body ul {
+      list-style: none;
+      padding: 0;
+      margin-bottom: 20px;
+    }
+    
+    .game-body ul li {
+      padding: 8px 0;
+      color: #666;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .game-body ul li:last-child {
+      border-bottom: none;
+    }
+    
+    .game-body ul li::before {
+      content: "✓ ";
+      color: #059669;
+      font-weight: bold;
+      margin-right: 8px;
+    }
+    
+    .play-button {
+      display: block;
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      text-align: center;
+      text-decoration: none;
+      border-radius: 10px;
+      font-weight: bold;
+      font-size: 18px;
+      transition: transform 0.2s ease;
+    }
+    
+    .play-button:hover {
+      transform: scale(1.05);
+    }
+    
+    footer {
+      text-align: center;
+      color: white;
+      padding: 40px 20px;
+      opacity: 0.8;
+    }
+    
+    footer a {
+      color: white;
+      text-decoration: underline;
+    }
+    
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 48px;
+      }
+      
+      header p {
+        font-size: 18px;
+      }
+      
+      .games-grid {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
-<body class="bg-gradient-to-br from-amber-50 via-orange-50 to-red-50 min-h-screen">
-  <!-- Header -->
-  <header class="py-12 px-6 text-center animate-fadeIn">
-    <div class="max-w-4xl mx-auto">
-      <div class="mb-6">
-        <svg class="w-20 h-20 mx-auto text-amber-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" 
-                d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" 
-                d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
+<body>
+  <div class="container">
+    <header>
+      <h1>🎮 Jogos</h1>
+      <p>Coleção de jogos para uso pessoal e familiar</p>
+    </header>
+    
+    <div class="games-grid">
+      <!-- Story Weave -->
+      <div class="game-card">
+        <div class="game-header story-weave">
+          <div class="game-icon">📖</div>
+          <h2>Story Weave</h2>
+          <p>Narrativa Colaborativa</p>
+        </div>
+        <div class="game-body">
+          <h3>Como funciona:</h3>
+          <ul>
+            <li>2-8 jogadores</li>
+            <li>Cada jogador recebe 6 palavras</li>
+            <li>Crie frases usando pelo menos 3 palavras</li>
+            <li>Sistema de checkpoints e palavras especiais</li>
+            <li>Temas: mistério, aventura, fantasia, cotidiano</li>
+          </ul>
+          <a href="story-weave/" class="play-button">▶️ Jogar</a>
+        </div>
       </div>
       
-      <h1 class="text-6xl font-bold text-amber-900 mb-4">
-        Jogos
-      </h1>
+      <!-- Rabiscofone -->
+      <div class="game-card">
+        <div class="game-header rabiscofone">
+          <div class="game-icon">✏️</div>
+          <h2>Rabiscofone</h2>
+          <p>Telefone sem Fio com Desenhos</p>
+        </div>
+        <div class="game-body">
+          <h3>Como funciona:</h3>
+          <ul>
+            <li>4+ jogadores (ideal: 6-12)</li>
+            <li>Alterne entre escrever frases e desenhar</li>
+            <li>Papéis circulam até retornar ao dono</li>
+            <li>Revele as transformações hilariantes</li>
+            <li>Prompts opcionais para inspiração</li>
+          </ul>
+          <a href="rabiscofone/" class="play-button">▶️ Jogar</a>
+        </div>
+      </div>
       
-      <p class="text-xl text-amber-700 italic mb-2">
-        Coleção de Experimentos Lúdicos
-      </p>
-      
-      <p class="text-amber-600 max-w-2xl mx-auto">
-        Protótipos, jogos completos e experiências interativas criadas por Vitruvia.
-        Explore narrativas colaborativas, puzzles e mecânicas experimentais.
-      </p>
+      <!-- Imagem e Ação -->
+      <div class="game-card">
+        <div class="game-header imagem-acao">
+          <div class="game-icon">🎭</div>
+          <h2>Imagem e Ação</h2>
+          <p>Desenhe e Adivinhe</p>
+        </div>
+        <div class="game-body">
+          <h3>Como funciona:</h3>
+          <ul>
+            <li>2+ jogadores ou times</li>
+            <li>Desenhe palavras ou frases</li>
+            <li>Adivinhe o mais rápido possível</li>
+            <li>Várias categorias disponíveis</li>
+            <li>Cronômetro integrado</li>
+          </ul>
+          <a href="imagem-e-acao/" class="play-button">▶️ Jogar</a>
+        </div>
+      </div>
     </div>
-  </header>
-
-  <!-- Games Grid -->
-  <main class="max-w-7xl mx-auto px-6 pb-20">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      
-      <!-- Story Weave -->
-      <article class="game-card bg-white/80 backdrop-blur rounded-2xl shadow-lg border-2 border-amber-200 overflow-hidden">
-        <div class="aspect-video bg-gradient-to-br from-amber-100 to-orange-100 flex items-center justify-center border-b-2 border-amber-200">
-          <svg class="w-24 h-24 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" 
-                  d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-          </svg>
-        </div>
-        
-        <div class="p-6">
-          <div class="mb-3">
-            <span class="badge badge-html">HTML</span>
-            <span class="badge badge-react ml-2">React</span>
-          </div>
-          
-          <h2 class="text-2xl font-bold text-amber-900 mb-2">
-            Story Weave
-          </h2>
-          
-          <p class="text-amber-700 mb-4 leading-relaxed">
-            Jogo colaborativo de narrativa presencial. Gere personagens e palavras balanceadas 
-            para criar histórias em grupo.
-          </p>
-          
-          <div class="flex gap-3">
-            <a href="story-weave/" 
-               class="flex-1 bg-gradient-to-r from-amber-600 to-orange-600 text-white py-3 px-4 rounded-xl font-semibold text-center hover:shadow-lg transition-all">
-              Jogar
-            </a>
-            <a href="https://github.com/vitruvia/jogos/tree/main/story-weave" 
-               class="bg-amber-100 text-amber-800 py-3 px-4 rounded-xl font-semibold hover:bg-amber-200 transition-all"
-               target="_blank">
-              Código
-            </a>
-          </div>
-        </div>
-      </article>
-
-      <!-- Jogo Template 2 -->
-      <article class="game-card bg-white/80 backdrop-blur rounded-2xl shadow-lg border-2 border-amber-200 overflow-hidden">
-        <div class="aspect-video bg-gradient-to-br from-blue-100 to-indigo-100 flex items-center justify-center border-b-2 border-amber-200">
-          <svg class="w-24 h-24 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" 
-                  d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-          </svg>
-        </div>
-        
-        <div class="p-6">
-          <div class="mb-3">
-            <span class="badge" style="background: #cbd5e1; color: #475569;">Em Breve</span>
-          </div>
-          
-          <h2 class="text-2xl font-bold text-amber-900 mb-2">
-            Próximo Jogo
-          </h2>
-          
-          <p class="text-amber-700 mb-4 leading-relaxed">
-            Novo experimento em desenvolvimento. Fique atento para updates!
-          </p>
-          
-          <div class="flex gap-3">
-            <button disabled 
-                    class="flex-1 bg-gray-300 text-gray-500 py-3 px-4 rounded-xl font-semibold cursor-not-allowed">
-              Em Breve
-            </button>
-          </div>
-        </div>
-      </article>
-
-      <!-- Adicione mais jogos aqui com a mesma estrutura -->
-      
-    </div>
-  </main>
-
-  <!-- Footer -->
-  <footer class="text-center py-8 px-6 text-amber-600 border-t border-amber-200 bg-white/50 backdrop-blur">
-    <p class="mb-2">
-      Criado por <strong class="text-amber-800">Vitruvia</strong>
-    </p>
-    <p class="text-sm">
-      <a href="https://github.com/vitruvia/jogos" 
-         class="hover:text-amber-800 transition-colors underline"
-         target="_blank">
-        Ver no GitHub
-      </a>
-    </p>
-  </footer>
-
-  <script>
-    // Adiciona interatividade extra se necessário
-    console.log('🎮 Bem-vindo à coleção de jogos!');
-  </script>
+    
+    <footer>
+      <p><strong>Vitruvia</strong> • Jogos para uso pessoal e familiar</p>
+      <p style="margin-top: 10px; font-size: 14px;">
+        Todos os jogos funcionam offline após o primeiro carregamento • 
+        <a href="https://github.com/vitruvia/jogos" target="_blank">Ver no GitHub</a>
+      </p>
+    </footer>
+  </div>
 </body>
 </html>
